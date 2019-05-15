@@ -24,14 +24,6 @@ def incomplete_moment(clone_size_dist):
     return moments / mcs
 
 
-def add_incom_to_plot(incom, clone_size_dist):
-    """Add an incomplete moment trace to a plot. Can also add a fit to the trace."""
-    min_size = np.nonzero(clone_size_dist)[0][0]
-    plot_incom = incom[min_size:]  # We don't plot for clone size 0
-    plot_x = np.arange(min_size, len(incom))
-    plt.plot(plot_x, plot_incom, label=label, color=colour)
-
-
 def find_ge(a, x):
     """Find leftmost item greater than or equal to x"""
     i = bisect.bisect_left(a, x)

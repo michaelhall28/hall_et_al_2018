@@ -21,7 +21,7 @@ def get_rsquared_all_sims(sim_dir, biopsies, coverage, detection_limit, fixed_in
     all_results = {}
     count = 1
     for sim_file in glob.glob(os.path.join(sim_dir, '*.pickle')):
-        print('sim', count, os.path.basename(sim_file), flush=True)
+        # print('sim', count, os.path.basename(sim_file), flush=True)
         sim_results = get_results_for_sim(sim_file, biopsies, coverage, detection_limit, fixed_interval)
 
         all_results[os.path.basename(sim_file)] = sim_results
@@ -36,7 +36,7 @@ def rsq_calc(x, y):
         x_min = x.min()
         log_incom = np.log(y)
         B = np.vstack([x]).T - x_min
-        slope, resids = np.linalg.lstsq(B, log_incom)[0:2]
+        slope, resids = np.linalg.lstsq(B, log_incom, rcond=None)[0:2]
         rsq = 1 - resids[0] / (len(log_incom) * log_incom.var())
     else:
         print('Only 1 clone size')

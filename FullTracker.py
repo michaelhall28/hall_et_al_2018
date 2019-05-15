@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import bisect
 from collections import defaultdict
 import pickle
-from useful_functions import incomplete_moment, add_incom_to_plot
+from useful_functions import incomplete_moment
 from scipy.sparse import lil_matrix
 import gzip
 
@@ -261,6 +261,7 @@ class GeneralSimClass(object):
         Create an array with the clone sizes for each mutant across the entire simulation.
         The populations will usually add up to more than the total since many clones will have multiple mutations
         """
+        self.unsparsify()
         mutant_clones = self.track_mutations(selection='all')
         self.mutant_clone_array = np.array([np.atleast_1d(self.population_array[list(mutant_clones[mutant])].sum(axis=0))
                                                        for mutant in range(len(self.clones_array))])

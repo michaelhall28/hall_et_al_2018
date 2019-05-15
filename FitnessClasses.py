@@ -55,6 +55,24 @@ class UniformDist(object):
         return g
 
 
+class MixedDist(object):
+    """A weighted mix of any of the other distributions"""
+
+    def __init__(self, dists, proportions):
+        self.dists = dists
+        self.proportions = proportions
+
+    def __str__(self):
+        txt = 'Mixed distribution:\n'
+        for d, p in zip(self.dists, self.proportions):
+            txt += str(d) + '  prop:{}\n'.format(p)
+        return txt
+
+    def __call__(self):
+        d = np.random.choice(self.dists, p=self.proportions)
+        return d()
+
+
 ##################
 # Classes for converting a combination of mutation fitnesses into a single fitness.
 # Used for diminishing returns of fitness increases.
@@ -122,6 +140,7 @@ class MutationGenerator(object):
         return np.random.binomial(1, self.synonymous_proportion)
 
     def get_new_fitness(self, old_fitness):
+        # np.random.random()
         syn = self.is_synonymous()
         if syn:
             new_fitness = old_fitness
